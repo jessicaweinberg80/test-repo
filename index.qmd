@@ -1,0 +1,75 @@
+---
+title: "Holland Wind Model: Example Hurricane"
+author: "Jessica Weinberg"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+# Introduction
+
+Here we use the Holland wind model to illustrate the radial wind
+profile of a hypothetical hurricane.
+
+# Holland wind profile
+
+The Holland model describes the radial variation in wind speed around
+a tropical cyclone. For this example, we use hypothetical storm
+parameters.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Hypothetical hurricane parameters
+P_c = 950       # central pressure (hPa)
+P_n = 1010      # ambient pressure (hPa)
+R_max = 40      # radius of maximum wind (km)
+B = 1.5         # Holland B parameter
+rho = 1.15      # air density (kg/m^3)
+
+# Radius from storm center
+r = np.linspace(1, 200, 500)
+
+# Convert radius to meters
+r_m = r * 1000
+R_max_m = R_max * 1000
+
+# Pressure difference
+delta_P = (P_n - P_c) * 100  # hPa -> Pa
+
+# Holland wind-speed equation
+V = np.sqrt(
+    (B / rho) *
+    delta_P *
+    (R_max_m / r_m)**B *
+    np.exp(-(R_max_m / r_m)**B)
+)
+
+# Plot
+plt.figure(figsize=(8, 5))
+plt.plot(r, V, linewidth=2)
+
+plt.axvline(
+    R_max,
+    color="red",
+    linestyle="--",
+    label="Radius of maximum wind"
+)
+
+plt.xlabel("Radius from storm center (km)")
+plt.ylabel("Wind speed (m/s)")
+plt.title("Hypothetical Hurricane: Holland Wind Profile")
+plt.legend()
+plt.grid(alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+# Results
+
+The resulting curve shows how the modeled wind speed varies with
+distance from the hurricane center. The maximum occurs near the
+specified radius of maximum wind.

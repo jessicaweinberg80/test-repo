@@ -1,0 +1,15 @@
+project:
+  type: manuscript
+  resources:
+    - bibliography.bib
+    - notebooks/*.qmd
+
+manuscript:
+  article: index.qmd
+
+format:
+  html:
+    comments:
+      hypothesis: true
+  docx: default
+  jats: default
